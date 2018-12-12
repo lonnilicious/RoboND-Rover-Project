@@ -44,7 +44,12 @@ As for obstacle recognition, I applied the "exclusive or", or "xor" function bet
 
 #### 1. Populate the `process_image()` function with the appropriate analysis steps to map pixels identifying navigable terrain, obstacles and rock samples into a worldmap.  Run `process_image()` on your test data using the `moviepy` functions provided to create video output of your result. 
 Once I converted rover-centric pixel values to world coordinates, I populated world map, corresponding the true map of the surroundings. Since I didn't want spots on the map to be mixes of the three colors, I assigned a priority to each color, such that the presence of blue on a pixel would insure that there would be a 0 red value on the same pixel. Similarly, green in a pixel would set the red and blue values to 0, giving rocks on the map maximum priority. (This was done starting on line 50 of process_image())  
+  
 Finally, the world map was overlayed with the true map to produce a video of the rover's exploration.
+
+
+The video is located in ~/robo_video.mp4  
+
 
 ### Autonomous Navigation and Mapping
 
@@ -53,8 +58,6 @@ Finally, the world map was overlayed with the true map to produce a video of the
 The `decision_step()` is made to consider the Rover's state, and incrementally update the speed and direction that it travels in. The main addition that I made was targeted at preventing the rover from getting stuck. Normally, the rover would get stuck when it reached a rock, but there still existed navigable space in its field of vision. I added a counter to the RoverState object called "stuck_counter", that would increment when the speed remained very low while the rover was moving forward. When the stuck_counter reaches a certain threshold, I added a condition to cause the rover to rotate for several frames, and get un-stuck (decision.py:54).  
 
 The jupyter notebook portion of the project directly translated into `perception_step()`. The main stages of the perceiving the Rover's environment are to, transform the perspective of the rover's camera to a bird's-eye-view, categorize each pixel in the image as belonging to a rock, navigable space, or obstacle space, then convert to rover coordinates, and world map coordinates (using the rover's position, and yaw value). 
-  
-The video is located in ~/robo_video.mp4
 
 
 
