@@ -98,8 +98,6 @@ def perspect_transform(img, src, dst):
     return warped
 
 def clean_color(grid, x_nav, y_nav, x_rock, y_rock, x_obs, y_obs):
-    print("grid shape:")
-    print(grid.shape)
     grid[y_obs.astype('int64'), x_obs.astype('int64'), 0] = 200
     grid[y_rock.astype('int64'), x_rock.astype('int64'), 1] = 200
     grid[y_nav.astype('int64'), x_nav.astype('int64'), 2] = 200
@@ -119,7 +117,6 @@ def clean_color(grid, x_nav, y_nav, x_rock, y_rock, x_obs, y_obs):
 # Apply the above funct_worldions in succession and update the Rover state accordingly
 def perception_step(Rover):
     # Perform perception steps to update Rover()
-    # TODO:
     # NOTE: camera image is coming to you in Rover.img
 
     # 1) Define source and destination points for perspective transform
@@ -159,12 +156,7 @@ def perception_step(Rover):
     vision_y_nav , vision_x_nav = threshed.nonzero()
     vision_y_obs, vision_x_obs = obstacle_threshold.nonzero()
     vision_y_rock, vision_x_rock = rock_threshed.nonzero()
-    #print("xpix_nav")
-    #print(vision_x_nav)
-    #print("ypix_nav")
-    #print(vision_y_nav)
 
-    #Rover.vision_image[vision_y_nav.astype('int64'), vision_x_nav.astype('int64'), 2] = 200
     Rover.vision_image = np.zeros_like(Rover.vision_image[:,:,:])
     clean_color(Rover.vision_image, vision_x_nav, vision_y_nav, vision_x_rock, vision_y_rock, vision_x_obs, vision_y_obs)
 
