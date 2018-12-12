@@ -38,14 +38,14 @@ You're reading it!
 
 ### Notebook Analysis
 #### 1. Run the functions provided in the notebook on test images (first with the test data provided, next on data you have recorded). Add/modify functions to allow for color selection of obstacles and rock samples.
-Here is an example of how to include an image in your writeup.
-
-![alt text][image1]
+To enable rock recognition, I created the rock_thresh() function to filter pixels in the image that pass my threshold of "yellow".  
+As for obstacle recognition, I applied the "exclusive or", or "xor" function between my warped navigable space image, and a mask. On line 21 of process_image(), I created the mask by applying the same perspective transform I used for the warped image, to an image of all ones; this way, only the pixels that are within the rovers view, and weren't considered navigable space, will be categorized as obstacle space.  
+ 
 
 #### 1. Populate the `process_image()` function with the appropriate analysis steps to map pixels identifying navigable terrain, obstacles and rock samples into a worldmap.  Run `process_image()` on your test data using the `moviepy` functions provided to create video output of your result. 
-And another! 
+Once I converted rover-centric pixel values to world coordinates, I populated world map, corresponding the true map of the surroundings. Since I didn't want spots on the map to be mixes of the three colors, I assigned a priority to each color, such that the presence of blue on a pixel would insure that there would be a 0 red value on the same pixel. Similarly, green in a pixel would set the red and blue values to 0, giving rocks on the map maximum priority. (This was done starting on line 50 of process_image())  
+Finally, the world map was overlayed with the true map to produce a video of the rover's exploration.
 
-![alt text][image2]
 ### Autonomous Navigation and Mapping
 
 #### 1. Fill in the `perception_step()` (at the bottom of the `perception.py` script) and `decision_step()` (in `decision.py`) functions in the autonomous mapping scripts and an explanation is provided in the writeup of how and why these functions were modified as they were.
